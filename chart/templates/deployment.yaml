@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: default
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "basic.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "basic.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- if .Values.volumes.enabled }}
+          volumeMounts:
+            {{- range .Values.volumes.mountPath }}
+            {{- $dirmap := regexSplit ":" . -1 }}
+            {{- $sub_path := slice $dirmap 0 1 | first }}
+            {{- $mount := slice $dirmap  1 | last }}
+            {{- if $.Values.volumes.type.pvc }}
+            {{- $path := $mount }}
+            - mountPath: {{ $mount | default "/var/www" }}
+              name: {{ $.Release.Name }}-volume
+            {{- else }}
+            - mountPath: {{ $mount | default "/var/www" }}
+              name: {{ $.Release.Name }}-volume
+              subPath: {{ $sub_path }}
+            {{- end }}
+            {{- end }}
+          {{- end}}
+          env:
+          {{- if eq .Values.application.type "wordpress" }}
+          - name: WORDPRESS_DB_HOST
+            value: lab-helper.lan
+          - name: WORDPRESS_DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-db
+                key: login
+          - name: WORDPRESS_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-db
+                key: password
+          - name: WORDPRESS_DB_NAME
+            value: {{ .Release.Name | trimSuffix "-www" }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+      {{- if .Values.volumes.enabled }}
+      {{- if .Values.volumes.type.pvc }}
+      {{- $ownership := regexSplit ":" .Values.volumes.ownership -1 }}
+      {{- $gid := slice $ownership 0 1 | first }}
+      securityContext:
+        fsGroup: {{ $gid | default 0 }}
+      {{- end}}
+      volumes:
+        - name: {{ .Release.Name }}-volume
+          {{- if .Values.volumes.type.nfs }}
+          nfs:
+            server: {{ .Values.volumes.type.nfs.server }}
+            path: {{ .Values.volumes.type.nfs.path }}/{{ .Release.Name }}
+            readOnly: false
+          {{- else }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-pvc
+          {{- end }} 
+    {{- end }}

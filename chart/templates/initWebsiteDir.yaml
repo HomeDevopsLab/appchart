@@ -1,0 +1,60 @@
+{{- if .Values.volumes.enabled -}}
+{{- if .Values.volumes.type.nfs -}}
+{{- $dirs_to_create := "" -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-init-websitedir"
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: alpine
+          image: arm32v7/alpine:3.17.2
+          env:
+          - name: STORAGE_SRV
+            valueFrom:
+              secretKeyRef:
+                name: lab-server
+                key: server
+          - name: WEBSITE_DIRS
+            {{- range .Values.volumes.mountPath }}
+            {{- $dirmap := regexSplit ":" . -1 -}}
+            {{- $dir := slice $dirmap 0 1 | first -}}
+            {{- $dirs_to_create = printf "%s %s/%s/%s" $dirs_to_create "/storage" $.Release.Name $dir }}
+            {{- end }}
+            value: {{ $dirs_to_create }}
+          - name: OWNERSHIP
+            value: {{ .Values.volumes.ownership | default "root:root" }}
+          volumeMounts:
+            - mountPath: /storage
+              name: {{ .Release.Name }}-volume
+          command: ["/bin/sh"]
+          args:
+            - -c
+            - >-
+                mkdir -p $(WEBSITE_DIRS);
+                chown $(OWNERSHIP) $(WEBSITE_DIRS);
+      volumes:
+        - name: {{ .Release.Name }}-volume
+          nfs:
+            server: {{ .Values.volumes.type.nfs.server }}
+            path: {{ .Values.volumes.type.nfs.path }}
+{{- end }}
+{{- end }}

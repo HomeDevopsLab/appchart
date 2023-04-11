@@ -1,0 +1,14 @@
+{{- if .Values.image.imagePolicy -}}
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: {{ .Release.Name }}
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: {{ .Release.Name }}
+  policy:
+    semver:
+      range: '>=0.0.1'
+{{- end -}}

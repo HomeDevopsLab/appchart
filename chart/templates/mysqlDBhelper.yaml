@@ -1,0 +1,53 @@
+{{- if .Values.database.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-dbserver"
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-4"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: mysqldb-helper
+          image: devkrolikowski/mysqldb-helper:0.1.0
+          env:
+          - name: DB_ADMIN_LOGIN
+            valueFrom:
+              secretKeyRef: 
+                name: dbadmin
+                key: login
+          - name: DB_ADMIN_PASS
+            valueFrom:
+              secretKeyRef: 
+                name: dbadmin
+                key: password
+          - name: APPDB_NAME
+            value: {{ .Release.Name | trimSuffix "-www" }}
+          - name: APPDB_LOGIN
+            valueFrom:
+              secretKeyRef: 
+                name: {{ .Release.Name }}-db
+                key: login
+          - name: APPDB_PASS
+            valueFrom:
+              secretKeyRef: 
+                name: {{ .Release.Name }}-db
+                key: password
+          - name: DB_HOST
+            value: lab-helper.lan
+{{- end }}

@@ -1,0 +1,17 @@
+{{- if .Values.volumes.enabled }}
+{{- if hasKey .Values.volumes.type "pvc" }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-pvc
+  namespace: default
+spec:
+  persistentVolumeReclaimPolicy: Recycle
+  accessModes:
+    - ReadWriteMany
+  storageClassName: longhorn-2repl
+  resources:
+    requests:
+      storage: {{ .Values.volumes.type.pvc.size }}
+{{- end }}
+{{- end }}
