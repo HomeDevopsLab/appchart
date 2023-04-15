@@ -45,7 +45,6 @@ spec:
             - -c
             - >-
                 mkdir -p $(WEBSITE_DIRS);
-                chown $(OWNERSHIP) $(WEBSITE_DIRS);
       volumes:
         - name: {{ .Release.Name }}-volume
           nfs:
