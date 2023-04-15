@@ -1,5 +1,6 @@
-{{- range .Values.application.services }}
-{{- if gt .port 0.0 }}
+{{- $services_count := len .Values.services -}}
+{{- if gt $services_count 0 }}
+{{- range .Values.services }}
 ---
 apiVersion: v1
 kind: Service
@@ -17,12 +18,8 @@ spec:
   ports:
     - name: {{ .name }}
       protocol: TCP
-      port: {{ .port | default 80 }}
-      {{- if eq .name "ssh" }}
-      targetPort: 22
-      {{- else }}
-      targetPort: {{ .port | default 80 }}
-      {{- end }}
+      port: {{ .servicePort }}
+      targetPort: {{ .targetPort }}
   selector:
     app.kubernetes.io/app: {{ $.Release.Name }}
 {{- end }}

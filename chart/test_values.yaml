@@ -1,0 +1,55 @@
+replicaCount: 1
+database:
+  enabled: true
+image:
+  repository: gitea/gitea
+  tag: 1.19.0-linux-arm64-rootless
+env:
+  - name: USER_UID
+    value: 1000
+  - name: USER_GID
+    value: 1000
+  - name: GITEA__database__DB_TYPE
+    value: mysql
+  - name: GITEA__database__HOST
+    value: lab-helper.lan:3306
+  - name: GITEA__database__NAME
+    value: gitea
+  - name: GITEA__database__USER
+    valueFrom:
+      secretKeyRef:
+        name: gitea-db
+        key: login
+  - name: GITEA__database__PASSWD
+    valueFrom:
+      secretKeyRef:
+        name: gitea-db
+        key: password
+resources:
+  limits:
+    memory: "1024Mi"
+    cpu: "2"
+  requests:
+    memory: "1024Mi"
+    cpu: "1"
+services:
+  - name: http
+    servicePort: 80
+    targetPort: 3000
+  - name: ssh
+    servicePort: 2222
+    targetPort: 2222
+ingress:
+  enabled: true
+  hosts:
+    - host: gitea.lan
+volumes:
+  enabled: true
+  mountPath: 
+    - gitea:/var/lib/gitea
+    - config:/etc/gitea
+  ownership: 1000:1000
+  type:
+    nfs:
+      server: lab-storage.lan
+      path: /volume1/storagelab

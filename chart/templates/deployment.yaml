@@ -36,30 +36,19 @@ spec:
             {{- end }}
           {{- end}}
           env:
-          {{- if eq .Values.application.type "wordpress" }}
-          - name: WORDPRESS_DB_HOST
-            value: lab-helper.lan
-          - name: WORDPRESS_DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Release.Name }}-db
-                key: login
-          - name: WORDPRESS_DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Release.Name }}-db
-                key: password
-          - name: WORDPRESS_DB_NAME
-            value: {{ .Release.Name | trimSuffix "-www" }}
+          {{- with .Values.env }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
-            - name: http
-              containerPort: 80
+            {{- range .Values.services }}
+            - name: {{ .name }}
+              containerPort: {{.targetPort }}
               protocol: TCP
+            {{- end }}
       {{- if .Values.volumes.enabled }}
       {{- if .Values.volumes.type.pvc }}
       {{- $ownership := regexSplit ":" .Values.volumes.ownership -1 }}

@@ -28,11 +28,6 @@ spec:
         - name: alpine
           image: arm32v7/alpine:3.17.2
           env:
-          - name: STORAGE_SRV
-            valueFrom:
-              secretKeyRef:
-                name: lab-server
-                key: server
           - name: WEBSITE_DIRS
             {{- range .Values.volumes.mountPath }}
             {{- $dirmap := regexSplit ":" . -1 -}}
