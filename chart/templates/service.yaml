@@ -10,10 +10,8 @@ metadata:
 spec:
   {{- if eq .name "http" }}
   type: ClusterIP
-  {{- else if eq .name "ssh" }}
-  type: LoadBalancer
   {{- else }}
-  type: NodePort
+  type: LoadBalancer
   {{- end }}
   ports:
     - name: {{ .name }}
