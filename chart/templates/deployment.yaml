@@ -1,3 +1,4 @@
+{{- $livenessPort := "" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,6 +50,22 @@ spec:
               containerPort: {{.targetPort }}
               protocol: TCP
             {{- end }}
+            {{- range .Values.services }}
+              {{- if eq .name "http" }}
+                {{- $livenessPort := .targetPort }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ $livenessPort }}
+            failureThreshold: 1
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /
+              port: {{ $livenessPort }}
+            failureThreshold: 30
+            periodSeconds: 10
       {{- if .Values.volumes.enabled }}
       {{- if .Values.volumes.type.pvc }}
       {{- $ownership := regexSplit ":" .Values.volumes.ownership -1 }}
