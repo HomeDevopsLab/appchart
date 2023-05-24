@@ -51,9 +51,8 @@ spec:
             value: {{ .Values.image.tag }}
           command: ["/usr/bin/curl", "-i"]
           args:
-            - >-
-                -X POST
-                -H 'Content-Type: application/json'
-                -H 'Authorization: Bearer $(MM_BOT_TOKEN)'
-                -d '{"username": "$(MM_USERNAME)", "text": ":bulb: Application: $(APP_NAME), version: $(APP_VERSION) was deployed! :tada:"}'
-                $(MM_CHAT)
+            - >
+              -X POST
+              -H 'Content-Type: application/json'
+              -H 'Authorization: Bearer $(MM_BOT_TOKEN)'
+              -d '{"username": "$(MM_USERNAME)", "text": ":bulb: Application: $(APP_NAME), version: $(APP_VERSION) was deployed! :tada:"}' $(MM_CHAT)
