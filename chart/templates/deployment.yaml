@@ -49,13 +49,13 @@ spec:
               containerPort: {{.targetPort }}
               protocol: TCP
             {{- end }}
+          {{- if .Values.startupProbes.enabled }}
           {{- $livenessPort := 80 }}
           {{- range .Values.services }}
           {{- if eq .name "http" }}
           {{- $livenessPort = .targetPort }}
           {{- end }}
           {{- end }}
-          {{- if .Values.startupProbes.enabled }}
           livenessProbe:
             httpGet:
               path: /
