@@ -11,6 +11,7 @@ metadata:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": hook-succeeded
+{{- if .Values.deployNotifications.enabled }}
 spec:
   template:
     metadata:
@@ -23,7 +24,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: curl
-          image: gitea.angrybits.pl/kkrolikowski/mattermost-notify:0.0.1
+          image: {{ .Values.deployNotifications.image }}
           env:
           - name: MM_USERNAME
             valueFrom:
@@ -44,3 +45,4 @@ spec:
             value: {{ .Release.Name }}
           - name: APP_VERSION
             value: {{ .Values.image.tag }}
+{{- end }}
