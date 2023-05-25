@@ -23,7 +23,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: curl
-          image: curlimages/curl:8.1.1
+          image: gitea.angrybits.pl/kkrolikowski/mattermost-notify:0.0.1
           env:
           - name: MM_USERNAME
             valueFrom:
@@ -49,10 +49,3 @@ spec:
             value: {{ .Release.Name }}
           - name: APP_VERSION
             value: {{ .Values.image.tag }}
-          command: ["/usr/bin/curl", "-i"]
-          args:
-            - >
-              -X POST
-              -H 'Content-Type: application/json'
-              -H 'Authorization: Bearer $(MM_BOT_TOKEN)'
-              -d '{"username": "$(MM_USERNAME)", "text": ":bulb: Application: $(APP_NAME), version: $(APP_VERSION) was deployed! :tada:"}' $(MM_CHAT)
