@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-mattermost"
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": hook-succeeded
+{{- if .Values.deployNotifications.enabled }}
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: "{{ .Release.Name }}-mattermost"
+          image: {{ .Values.deployNotifications.image }}
+          env:
+          - name: MM_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: cron-secrets
+                key: mm_usernane
+          - name: MM_BOT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: cron-secrets
+                key: mm_bot_token
+          - name: MM_CHAT
+            valueFrom:
+              secretKeyRef:
+                name: cron-secrets
+                key: mm_chat
+          - name: APP_NAME
+            value: {{ .Release.Name }}
+          - name: APP_VERSION
+            value: {{ .Values.image.tag }}
+{{- end }}
