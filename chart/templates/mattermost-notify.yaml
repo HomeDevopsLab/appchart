@@ -23,7 +23,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-        - name: curl
+        - name: "{{ .Release.Name }}-mattermost"
           image: {{ .Values.deployNotifications.image }}
           env:
           - name: MM_USERNAME
