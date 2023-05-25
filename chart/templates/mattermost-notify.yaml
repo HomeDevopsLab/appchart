@@ -35,11 +35,6 @@ spec:
               secretKeyRef:
                 name: cron-secrets
                 key: mm_bot_token
-          - name: MM_BOT_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: cron-secrets
-                key: mm_bot_token
           - name: MM_CHAT
             valueFrom:
               secretKeyRef:
