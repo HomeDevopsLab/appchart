@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.0] - 2023-05-25
+### Added
+- startup probes
+- Mattermost Notifications
+
 ## [0.1.0] - 2023-05-06
 ### Changed
 - Treat other than http service as ClusterIP type
