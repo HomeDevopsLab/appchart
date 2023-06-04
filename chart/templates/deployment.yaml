@@ -49,6 +49,7 @@ spec:
               containerPort: {{.targetPort }}
               protocol: TCP
             {{- end }}
+          {{- if .Values.startupProbes.enabled }}
           {{- $livenessPort := 80 }}
           {{- range .Values.services }}
           {{- if eq .name "http" }}
@@ -67,6 +68,7 @@ spec:
               port: {{ $livenessPort }}
             failureThreshold: 30
             periodSeconds: 10
+          {{- end }}
       {{- if .Values.volumes.enabled }}
       {{- if .Values.volumes.type.pvc }}
       {{- $ownership := regexSplit ":" .Values.volumes.ownership -1 }}
