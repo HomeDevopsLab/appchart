@@ -60,7 +60,7 @@ spec:
             httpGet:
               path: /
               port: {{ $livenessPort }}
-            failureThreshold: 1
+            failureThreshold: 10
             periodSeconds: 10
           startupProbe:
             httpGet:
