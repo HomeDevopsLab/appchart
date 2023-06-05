@@ -16,7 +16,7 @@ spec:
         {{- include "basic.selectorLabels" . | nindent 8 }}
     spec:
       nodeSelector:
-        node-role.kubernetes.io/master: false
+        node-role.kubernetes.io/master: "false"
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
