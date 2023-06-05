@@ -18,7 +18,7 @@ spec:
       tolerations:
         - key: "cluster-node-role"
           operator: "Equal"
-          value: "worker"
+          value: "master"
           effect: "NoSchedule"
       containers:
         - name: {{ .Release.Name }}
