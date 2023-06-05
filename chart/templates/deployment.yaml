@@ -15,8 +15,11 @@ spec:
       labels:
         {{- include "basic.selectorLabels" . | nindent 8 }}
     spec:
-      nodeSelector:
-        node-role.kubernetes.io/master: "false"
+      tolerations:
+        - key: "cluster-node-role"
+          operator: "Equal"
+          value: "master"
+          effect: "NoSchedule"
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
