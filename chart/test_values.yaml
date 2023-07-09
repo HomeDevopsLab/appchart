@@ -12,6 +12,8 @@ resources:
     cpu: "1"
 ingress:
   enabled: false
+startupProbes:
+  enabled: false
 volumes:
   enabled: true
   mountPath: 
@@ -20,3 +22,13 @@ volumes:
     nfs:
       server: lab-storage.lan
       path: /volume1/storagelab
+config:
+  enabled: true
+  configMaps:
+    - name: config
+      mode: 644
+    - name: sasl-password
+      mode: 600
+  configMounts:
+    - smtp-config:/etc/postfix
+    - smtp-sasl-password:/etc/postfix

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.0] - 2023-07-09
+### Added
+- ConfigMap support
+
 ## [1.0.3] - 2023-06-05
 ### Chaged
 - increased failure threshold

@@ -24,15 +24,18 @@ spec:
             {{- $dirmap := regexSplit ":" . -1 }}
             {{- $sub_path := slice $dirmap 0 1 | first }}
             {{- $mount := slice $dirmap  1 | last }}
-            {{- if $.Values.volumes.type.pvc }}
-            {{- $path := $mount }}
             - mountPath: {{ $mount | default "/var/www" }}
-              name: {{ $.Release.Name }}-volume
-            {{- else }}
-            - mountPath: {{ $mount | default "/var/www" }}
-              name: {{ $.Release.Name }}-volume
+              name: {{ $.Release.Name }}-{{ $sub_path }}
+            {{- if $.Values.volumes.type.nfs }}
               subPath: {{ $sub_path }}
             {{- end }}
+            {{- end }}
+            {{- range .Values.config.configMounts }}
+            {{- $map := regexSplit ":" . -1 }}
+            {{- $volName := slice $map 0 1 | first }}
+            {{- $insidePath := slice $map  1 | last }}
+            - mountPath: {{ $insidePath }}
+              name: {{ $volName }}
             {{- end }}
           {{- end}}
           env:
@@ -77,13 +80,31 @@ spec:
         fsGroup: {{ $gid | default 0 }}
       {{- end}}
       volumes:
-        - name: {{ .Release.Name }}-volume
+          {{- /*
+            When we have nfs volumes defined in helm release
+          */}}
           {{- if .Values.volumes.type.nfs }}
+        - name: {{ .Release.Name }}-volume
           nfs:
             server: {{ .Values.volumes.type.nfs.server }}
             path: {{ .Values.volumes.type.nfs.path }}/{{ .Release.Name }}
             readOnly: false
-          {{- else }}
+          {{- end }}
+          {{- /*
+            When we have configmaps attached
+          */}}
+          {{- if .Values.config.enabled }}
+          {{- range .Values.config.configMaps }}
+        - name: {{ .name }}
+          configMap:
+            defaultMode: {{ .mode }}
+            name: {{ .name }}
+          {{- end }}
+          {{- end}}
+          {{- /*
+            When we have PVC type volumes
+          */}}
+          {{- if .Values.volumes.type.pvc }}
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-pvc
           {{- end }} 

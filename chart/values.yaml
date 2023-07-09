@@ -33,3 +33,7 @@ startupProbes:
 deployNotifications:
   enabled: false
   image: ""
+config:
+  enabled: false
+  configMaps: []
+  configMounts: []
