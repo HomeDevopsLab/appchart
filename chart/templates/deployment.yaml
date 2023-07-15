@@ -69,6 +69,10 @@ spec:
             failureThreshold: 30
             periodSeconds: 10
           {{- end }}
+      nodeSelector:
+      {{- with .Values.nodeSelector }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if .Values.volumes.enabled }}
       {{- if .Values.volumes.type.pvc }}
       {{- $ownership := regexSplit ":" .Values.volumes.ownership -1 }}
@@ -76,10 +80,6 @@ spec:
       securityContext:
         fsGroup: {{ $gid | default 0 }}
       {{- end}}
-      nodeSelector:
-        {{- with .Values.nodeSelector }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
       volumes:
         - name: {{ .Release.Name }}-volume
           {{- if .Values.volumes.type.nfs }}
