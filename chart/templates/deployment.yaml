@@ -73,6 +73,8 @@ spec:
       {{- if .Values.volumes.type.pvc }}
       {{- $ownership := regexSplit ":" .Values.volumes.ownership -1 }}
       {{- $gid := slice $ownership 0 1 | first }}
+      nodeSelector:
+        kubernetes.io/arch: {{ .Values.nodeSelector }}
       securityContext:
         fsGroup: {{ $gid | default 0 }}
       {{- end}}

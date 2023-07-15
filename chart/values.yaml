@@ -33,3 +33,5 @@ startupProbes:
 deployNotifications:
   enabled: false
   image: ""
+nodeSelector:
+  kubernetes.io/arch: ""
