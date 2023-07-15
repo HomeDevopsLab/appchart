@@ -24,7 +24,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: mysqldb-helper
-          image: devkrolikowski/mysqldb-helper:0.1.0
+          image: gitea.angrybits.pl/kkrolikowski/mysql-initdb:0.0.1
           env:
           - name: DB_ADMIN_LOGIN
             valueFrom:
