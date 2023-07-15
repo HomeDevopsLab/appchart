@@ -50,4 +50,8 @@ spec:
                 key: password
           - name: DB_HOST
             value: lab-helper.lan
+      nodeSelector:
+        {{- with .Values.nodeSelector }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
 {{- end }}
