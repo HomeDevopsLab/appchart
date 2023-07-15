@@ -20,3 +20,5 @@ volumes:
     nfs:
       server: lab-storage.lan
       path: /volume1/storagelab
+nodeSelector:
+  kubernetes.io/arch: arm64
