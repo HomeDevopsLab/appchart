@@ -49,7 +49,7 @@ spec:
                 name: {{ .Release.Name }}-db
                 key: password
           - name: DB_HOST
-            value: lab-helper.lan
+            value: srv-db2.lan
       nodeSelector:
         {{- with .Values.nodeSelector }}
         {{- toYaml . | nindent 8 }}
