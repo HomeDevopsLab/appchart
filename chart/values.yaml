@@ -33,3 +33,4 @@ startupProbes:
 deployNotifications:
   enabled: false
   image: ""
+nodeSelector: {}

@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.0] - 2023-07-21
+### Added
+- ability to use nodeSelector function
+
 ## [1.0.3] - 2023-06-05
 ### Chaged
 - increased failure threshold
