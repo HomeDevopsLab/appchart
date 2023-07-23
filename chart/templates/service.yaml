@@ -11,6 +11,7 @@ spec:
   {{- if eq .name "http" }}
   type: ClusterIP
   {{- else }}
+  externalTrafficPolicy: Local
   type: LoadBalancer
   {{- end }}
   ports:
