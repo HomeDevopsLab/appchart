@@ -8,7 +8,6 @@ metadata:
   name: {{ $.Release.Name }}-{{ .name }}-svc
   namespace: default
 spec:
-  externalTrafficPolicy: Local
   {{- if eq .name "http" }}
   type: ClusterIP
   {{- else }}
