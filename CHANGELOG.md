@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.1.0] - 2023-07-27
+### Added
+- replaced strict TCP protocol family in ports specification with variable: protocol which allows to decide which protocol is needed
+
+
 ## [2.0.0] - 2023-07-21
 ### Added
 - ability to use nodeSelector function

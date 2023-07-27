@@ -15,7 +15,7 @@ spec:
   {{- end }}
   ports:
     - name: {{ .name }}
-      protocol: TCP
+      protocol: {{ .protocol }}
       port: {{ .servicePort }}
       targetPort: {{ .targetPort }}
   selector:
