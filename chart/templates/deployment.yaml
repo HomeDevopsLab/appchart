@@ -18,6 +18,18 @@ spec:
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- if .Values.image.command }}
+          command:
+          {{- with .Values.image.command }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.image.args }}
+          args:
+          {{- with .Values.image.args }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- end }}
           {{- if .Values.volumes.enabled }}
           volumeMounts:
             {{- range .Values.volumes.mountPath }}

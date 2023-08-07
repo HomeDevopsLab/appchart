@@ -3,6 +3,10 @@ image:
   imagePolicy: enabled
   repository: devkrolikowski/swiss-army-knife
   tag: 0.3.0 # {"$imagepolicy": "flux-system:helper:tag"}
+  command: 
+    - "cmd.sh"
+  args: 
+    - "cmdarg"
 resources:
   limits:
     memory: "1024Mi"
