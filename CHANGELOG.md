@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.0] - 2023-08-11
+### Added
+- option to run containers with additional command and args.
+
 ## [2.1.0] - 2023-07-27
 ### Added
 - replaced strict TCP protocol family in ports specification with variable: protocol which allows to decide which protocol is needed
