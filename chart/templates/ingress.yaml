@@ -32,5 +32,6 @@ spec:
       hosts:
         - {{ .name }}
   {{- end }}
+  {{ printf "\n" }}
   {{- end }}
   {{- end -}}
