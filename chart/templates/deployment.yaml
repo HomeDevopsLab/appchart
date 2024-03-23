@@ -83,7 +83,7 @@ spec:
           {{- end }}
       {{ if .Values.image.registrySecret }}
       imagePullSecrets:
-        - name: {{ .Values.image.registrySecret }}
+      - name: {{ .Values.image.registrySecret }}
       {{ end }}
       nodeSelector:
       {{- with .Values.nodeSelector }}
