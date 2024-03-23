@@ -1,18 +1,13 @@
 {{- if .Values.ingress.enabled -}}
-{{- $svcPort := 0 -}}
-{{- range .Values.services -}}
-{{- if eq .name "http" -}}
-{{- $svcPort = .servicePort -}}
-{{- else -}}
-{{- $svcPort = "80" -}}
-{{- end -}}
-{{- end -}}
+{{- range .Values.ingress.hosts }}
+{{- $subdomain := .name | splitList "." | first -}}
+{{- $ReleaseName := printf "%s-%s" .Release.Name $subdomain -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ $ReleaseName }}
   namespace: default
-  {{- if .Values.ingress.ssl }}
+  {{- if .Values.ingress.ssl.enabled }}
   annotations:
     kubernetes.io/ingress.class: traefik
     cert-manager.io/cluster-issuer: letsencrypt
@@ -20,24 +15,21 @@ metadata:
   {{- end }}
 spec:
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ .name }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ $.Release.Name }}-http-svc
+                name: {{ $ReleaseName }}
                 port:
-                  number: {{ $svcPort }}
-    {{- end }}
+                  number: {{ .servicePort }}
   {{- if .Values.ingress.ssl }}
   tls:
-  {{- range .Values.ingress.tls }}
-    - secretName: {{ $.Release.Name }}-tls
+    - secretName: {{ $ReleaseName }}-tls
       hosts:
-        - {{ .hosts | first  }}
+        - {{ .name }}
   {{- end }}
   {{- end }}
   {{- end -}}

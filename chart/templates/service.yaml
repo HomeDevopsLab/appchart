@@ -8,11 +8,7 @@ metadata:
   name: {{ $.Release.Name }}-{{ .name }}-svc
   namespace: default
 spec:
-  {{- if eq .name "http" }}
-  type: ClusterIP
-  {{- else }}
-  type: LoadBalancer
-  {{- end }}
+  type: {{ .type }}
   ports:
     - name: {{ .name }}
       protocol: {{ .protocol }}
