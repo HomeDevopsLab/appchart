@@ -2,6 +2,7 @@
 {{- range .Values.ingress.hosts }}
 {{- $subdomain := .name | splitList "." | first -}}
 {{- $ReleaseName := printf "%s-%s" $.Release.Name $subdomain -}}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
