@@ -7,5 +7,9 @@ metadata:
   namespace: flux-system
 spec:
   image: {{ .Values.image.repository }}
+  {{ if .Values.image.registrySecret }}
+  secretRef:
+    name: {{ .Values.image.registrySecret }}
+  {{- end }}
   interval: 1m0s
 {{- end -}}
