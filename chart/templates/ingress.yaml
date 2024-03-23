@@ -7,7 +7,7 @@ kind: Ingress
 metadata:
   name: {{ $ReleaseName }}
   namespace: default
-  {{- if .Values.ingress.ssl.enabled }}
+  {{- if $.Values.ingress.ssl.enabled }}
   annotations:
     kubernetes.io/ingress.class: traefik
     cert-manager.io/cluster-issuer: letsencrypt
@@ -25,7 +25,7 @@ spec:
                 name: {{ $ReleaseName }}
                 port:
                   number: {{ .servicePort }}
-  {{- if .Values.ingress.ssl }}
+  {{- if $.Values.ingress.ssl }}
   tls:
     - secretName: {{ $ReleaseName }}-tls
       hosts:
