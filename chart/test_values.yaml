@@ -1,5 +1,6 @@
 replicaCount: 1
 image:
+  registrySecret: gitlab-registry
   imagePolicy: enabled
   repository: devkrolikowski/swiss-army-knife
   tag: 0.3.0 # {"$imagepolicy": "flux-system:helper:tag"}
