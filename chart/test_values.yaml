@@ -1,5 +1,6 @@
 replicaCount: 1
 image:
+  registrySecret: gitlab-registry
   imagePolicy: enabled
   repository: devkrolikowski/swiss-army-knife
   tag: 0.3.0 # {"$imagepolicy": "flux-system:helper:tag"}
@@ -14,8 +15,8 @@ resources:
   requests:
     memory: "1024Mi"
     cpu: "1"
-ingress:
-  enabled: false
+# ingress:
+#   enabled: false
 volumes:
   enabled: true
   mountPath: 
@@ -26,3 +27,27 @@ volumes:
       path: /volume1/storagelab
 nodeSelector:
   kubernetes.io/arch: arm64
+services:
+  - name: http
+    type: ClusterIP
+    protocol: 'TCP'
+    servicePort: 80
+    targetPort: 80
+  - name: ssh
+    type: LoadBalancer
+    protocol: 'TCP'
+    servicePort: 2223
+    targetPort: 22
+  - name: registry
+    type: ClusterIP
+    protocol: 'TCP'
+    servicePort: 5050
+    targetPort: 5050
+ingress:
+  enabled: true
+  ssl: true
+  hosts:
+    - name: gitlab.angrybits.pl
+      servicePort: 80
+    - name: registry.lab.angrybits.pl
+      servicePort: 5050

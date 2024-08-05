@@ -5,14 +5,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ $.Release.Name }}-{{ .name }}-svc
+  name: "{{ $.Release.Name }}-{{ .name }}"
   namespace: default
 spec:
-  {{- if eq .name "http" }}
-  type: ClusterIP
-  {{- else }}
-  type: LoadBalancer
-  {{- end }}
+  type: {{ .type }}
   ports:
     - name: {{ .name }}
       protocol: {{ .protocol }}
