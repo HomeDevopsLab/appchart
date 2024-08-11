@@ -74,7 +74,7 @@ spec:
             tcpSocket:
               port: {{ .Values.livenessProbe.port }}
             initialDelaySeconds: 10
-            periodSeconds: 10
+            periodSeconds: 2
           {{- end }}
       {{ if .Values.image.registrySecret }}
       imagePullSecrets:
