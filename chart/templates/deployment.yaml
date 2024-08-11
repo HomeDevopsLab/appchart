@@ -76,6 +76,17 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 2
           {{- end }}
+      {{- if .Values.livenessProbe }}
+      tolerations:
+        - key: "node.kubernetes.io/unreachable"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 10
+        - key: "node.kubernetes.io/not-ready"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 10
+      {{- end }}
       {{ if .Values.image.registrySecret }}
       imagePullSecrets:
       - name: {{ .Values.image.registrySecret }}
