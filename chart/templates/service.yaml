@@ -9,6 +9,9 @@ metadata:
   namespace: default
 spec:
   type: {{ .type }}
+  {{- if .loadBalancerIP }}
+  loadBalancerIP: {{ .loadBalancerIP }}
+  {{- end }}
   ports:
     - name: {{ .name }}
       protocol: {{ .protocol }}
