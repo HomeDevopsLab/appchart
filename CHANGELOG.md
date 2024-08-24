@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0] - 2024-08-24
+
+### Added
+
+- livenessProbe (tcp)
+- tolerations: wait 10s when node is unavaialble
+
 ## [2.3.0] - 2024-08-05
 
 ### Changed
