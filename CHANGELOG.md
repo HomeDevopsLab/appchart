@@ -6,6 +6,7 @@
 
 - livenessProbe (tcp)
 - tolerations: wait 10s when node is unavaialble
+- static loadBalancerIP for certain service
 
 ## [2.3.0] - 2024-08-05
 
