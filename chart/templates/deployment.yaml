@@ -107,7 +107,11 @@ spec:
           {{- if .Values.volumes.type.nfs }}
           nfs:
             server: {{ .Values.volumes.type.nfs.server }}
+            {{- if .Values.volumes.rootDir }}
+            path: {{ .Values.volumes.type.nfs.path }}/{{ .Values.volumes.rootDir }}
+            {{- else }}
             path: {{ .Values.volumes.type.nfs.path }}/{{ .Release.Name }}
+            {{- end }}
             readOnly: false
           {{- else }}
           persistentVolumeClaim:
