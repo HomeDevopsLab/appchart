@@ -32,7 +32,11 @@ spec:
             {{- range .Values.volumes.mountPath }}
             {{- $dirmap := regexSplit ":" . -1 -}}
             {{- $dir := slice $dirmap 0 1 | first -}}
+            {{- if .Values.volumes.rootDir -}}
+            {{- $dirs_to_create = printf "%s %s/%s/%s" $dirs_to_create "/storage" $.Values.volumes.rootDir $dir }}
+            {{- else }}
             {{- $dirs_to_create = printf "%s %s/%s/%s" $dirs_to_create "/storage" $.Release.Name $dir }}
+            {{- end }}
             {{- end }}
             value: {{ $dirs_to_create }}
           - name: OWNERSHIP
