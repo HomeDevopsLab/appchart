@@ -48,7 +48,7 @@ spec:
           args:
             - -c
             - >-
-                mkdir -p $(WEBSITE_DIRS);
+                mkdir -p $(WEBSITE_DIRS); chown -R $(OWNERSHIP) $(WEBSITE_DIRS);
       nodeSelector:
         {{- with .Values.nodeSelector }}
         {{- toYaml . | nindent 8 }}
