@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.5.0] - 2024-09-01
+
+### Added
+
+- common rootdir on shared storage
+
 ## [2.4.0] - 2024-08-24
 
 ### Added
