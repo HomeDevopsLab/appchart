@@ -25,17 +25,13 @@ ingress:
   tls: {}
 volumes:
   enabled: false
-  rootDir: ""
   mountPath: []
   ownership: ""
   type:
     nfs:
       server: lab-storage.lan
       path: /volume1/storagelab
-startupProbes:
-  enabled: true
 deployNotifications:
   enabled: false
   image: ""
 nodeSelector: {}
-livenessProbe: {}

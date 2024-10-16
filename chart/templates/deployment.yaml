@@ -61,20 +61,17 @@ spec:
               containerPort: {{.targetPort }}
               protocol: TCP
             {{- end }}
-          {{- if .Values.startupProbes.enabled }}
+          {{- if .Values.startupProbe }}
           startupProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.startupProbes.port | default 80 }}
-            failureThreshold: 30
-            periodSeconds: 10
+            {{- with .Values.startupProbe }}
+            {{- toYaml . | nindent 13 }}
+            {{- end }}
           {{- end }}
           {{- if .Values.livenessProbe }}
           livenessProbe:
-            tcpSocket:
-              port: {{ .Values.livenessProbe.port }}
-            initialDelaySeconds: 10
-            periodSeconds: 2
+            {{- with .Values.livenessProbe }}
+            {{- toYaml . | nindent 13 }}
+            {{- end }}
           {{- end }}
       {{- if .Values.livenessProbe }}
       tolerations:
