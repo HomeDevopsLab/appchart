@@ -51,7 +51,7 @@ spec:
                 if [! -d $(WEBSITE_DIRS) ]; then
                   mkdir -p $(WEBSITE_DIRS); 
                   chown -R $(OWNERSHIP) $(WEBSITE_DIRS);
-                endif
+                fi
       nodeSelector:
         {{- with .Values.nodeSelector }}
         {{- toYaml . | nindent 8 }}
