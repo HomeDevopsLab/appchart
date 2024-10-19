@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0] - 2024-10-19
+
+### Changed
+
+- Startup and Liveness probes are moved to HelmRelease file
+- initWebsiteDir hook: create website dir when it does not exist
+
 ## [2.5.0] - 2024-09-01
 
 ### Added
