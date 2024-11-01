@@ -44,14 +44,12 @@ spec:
           volumeMounts:
             - mountPath: /storage
               name: {{ .Release.Name }}-volume
-          command: ["/bin/sh"]
+          command: ["/bin/sh", "-c"]
           args:
-            - -c
-            - >-
-                if [! -d $(WEBSITE_DIRS) ]; then
-                  mkdir -p $(WEBSITE_DIRS); 
-                  chown -R $(OWNERSHIP) $(WEBSITE_DIRS);
-                fi
+            - if [! -d $(WEBSITE_DIRS) ]; then
+                mkdir -p $(WEBSITE_DIRS); 
+                chown -R $(OWNERSHIP) $(WEBSITE_DIRS);
+              fi
       nodeSelector:
         {{- with .Values.nodeSelector }}
         {{- toYaml . | nindent 8 }}
