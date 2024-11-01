@@ -35,3 +35,4 @@ deployNotifications:
   enabled: false
   image: ""
 nodeSelector: {}
+configMap: {}

@@ -32,6 +32,11 @@ spec:
           {{- end }}
           {{- if .Values.volumes.enabled }}
           volumeMounts:
+            {{- if .Values.configMap }}
+            - name: config
+              mountPath: {{ .Values.configMap.mountPath }}
+              readOnly: "true"
+            {{- end }}
             {{- range .Values.volumes.mountPath }}
             {{- $dirmap := regexSplit ":" . -1 }}
             {{- $sub_path := slice $dirmap 0 1 | first }}
@@ -100,6 +105,11 @@ spec:
         fsGroup: {{ $gid | default 0 }}
       {{- end}}
       volumes:
+        {{- if .Values.configMap }}
+        - name: config
+          configMap:
+            name: {{ .Values.configMap.name }}
+        {{- end }}
         - name: {{ .Release.Name }}-volume
           {{- if .Values.volumes.type.nfs }}
           nfs:
