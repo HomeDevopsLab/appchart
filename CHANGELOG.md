@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.6.1] - 2025-02-15
+
+### Fixed
+
+- Namespace value is dynamically parsed from HelmRelease
+
 ## [2.6.0] - 2024-10-19
 
 ### Changed
