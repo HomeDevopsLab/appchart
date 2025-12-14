@@ -5,6 +5,7 @@
 ### Added
 
 - Ability to insert custom securityContext block
+- ConfigMap support
 
 ## [2.6.1] - 2025-02-15
 
