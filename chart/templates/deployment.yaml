@@ -30,6 +30,12 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- end }}
+          {{- if .Values.securityContext }}
+          securityContext:
+          {{- with .Values.securityContext }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- end }}
           {{- if .Values.volumes.enabled }}
           volumeMounts:
             {{- range .Values.volumes.mountPath }}
