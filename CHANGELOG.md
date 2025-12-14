@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.7.0] - 2025-12-14
+
+### Added
+
+- Ability to insert custom securityContext block
+
 ## [2.6.1] - 2025-02-15
 
 ### Fixed
