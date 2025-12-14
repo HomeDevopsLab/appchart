@@ -39,9 +39,8 @@ spec:
           {{- if .Values.volumes.enabled }}
           volumeMounts:
             {{- if .Values.configMap }}
-            - name: config
+            - name: {{ .Values.configMap.name }}
               mountPath: {{ .Values.configMap.mountPath }}
-              readOnly: "true"
             {{- end }}
             {{- range .Values.volumes.mountPath }}
             {{- $dirmap := regexSplit ":" . -1 }}
