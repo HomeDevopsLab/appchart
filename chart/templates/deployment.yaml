@@ -111,7 +111,7 @@ spec:
       {{- end}}
       volumes:
         {{- if .Values.configMap }}
-        - name: config
+        - name: {{ .Values.configMap.name }}
           configMap:
             name: {{ .Values.configMap.name }}
         {{- end }}
