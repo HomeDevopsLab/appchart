@@ -9,6 +9,7 @@ image:
   tag: ""
   command: []
   args: []
+  securityContext: {}
   registrySecret: ""
 env: {}
 resources:
@@ -35,3 +36,4 @@ deployNotifications:
   enabled: false
   image: ""
 nodeSelector: {}
+configMap: {}

@@ -30,8 +30,18 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- end }}
+          {{- if .Values.securityContext }}
+          securityContext:
+          {{- with .Values.securityContext }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- end }}
           {{- if .Values.volumes.enabled }}
           volumeMounts:
+            {{- if .Values.configMap }}
+            - name: {{ .Values.configMap.name }}
+              mountPath: {{ .Values.configMap.mountPath }}
+            {{- end }}
             {{- range .Values.volumes.mountPath }}
             {{- $dirmap := regexSplit ":" . -1 }}
             {{- $sub_path := slice $dirmap 0 1 | first }}
@@ -100,6 +110,11 @@ spec:
         fsGroup: {{ $gid | default 0 }}
       {{- end}}
       volumes:
+        {{- if .Values.configMap }}
+        - name: {{ .Values.configMap.name }}
+          configMap:
+            name: {{ .Values.configMap.name }}
+        {{- end }}
         - name: {{ .Release.Name }}-volume
           {{- if .Values.volumes.type.nfs }}
           nfs:
