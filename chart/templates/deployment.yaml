@@ -115,6 +115,11 @@ spec:
           configMap:
             name: {{ .Values.configMap.name }}
         {{- end }}
+        {{- if .Values.volumes.secret }}
+        - name: {{ .Release.Name }}-secret-volume
+          secret:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
         - name: {{ .Release.Name }}-volume
           {{- if .Values.volumes.type.nfs }}
           nfs:

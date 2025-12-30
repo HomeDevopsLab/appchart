@@ -26,6 +26,9 @@ ingress:
   tls: {}
 volumes:
   enabled: false
+  secret:
+    secretName: ""
+    items: {}
   mountPath: []
   ownership: ""
   type:

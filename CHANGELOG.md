@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.8.0] - 2025-12-30
+
+### Added
+
+- Ability to mount secrets as volumes. I'ts handy when you need to mount encrypted config file
+
 ## [2.7.0] - 2025-12-14
 
 ### Added
