@@ -1,4 +1,3 @@
-{{- if .Values.volumes.enabled -}}
 {{- if .Values.volumes.type.nfs -}}
 {{- $dirs_to_create := "" -}}
 apiVersion: batch/v1
@@ -61,5 +60,4 @@ spec:
           nfs:
             server: {{ .Values.volumes.type.nfs.server }}
             path: {{ .Values.volumes.type.nfs.path }}
-{{- end }}
 {{- end }}
