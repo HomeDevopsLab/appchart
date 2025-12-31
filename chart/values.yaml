@@ -31,10 +31,6 @@ volumes:
     mountPath: ""
   mountPath: []
   ownership: ""
-  type:
-    nfs:
-      server: lab-storage.lan
-      path: /volume1/storagelab
 deployNotifications:
   enabled: false
   image: ""
