@@ -42,6 +42,10 @@ spec:
             - name: {{ .Values.configMap.name }}
               mountPath: {{ .Values.configMap.mountPath }}
             {{- end }}
+            {{- if .Values.volumes.secret }}
+            - name: {{ .Release.Name }}-secret-volume
+              mountPath: {{ .Values.volumes.secret.MountPath }}
+            {{- end }}
             {{- range .Values.volumes.mountPath }}
             {{- $dirmap := regexSplit ":" . -1 }}
             {{- $sub_path := slice $dirmap 0 1 | first }}
@@ -118,7 +122,7 @@ spec:
         {{- if .Values.volumes.secret }}
         - name: {{ .Release.Name }}-secret-volume
           secret:
-            {{- toYaml . | nindent 12 }}
+            secretName: {{ .Values.volumes.secret.secretName }}
         {{- end }}
         - name: {{ .Release.Name }}-volume
           {{- if .Values.volumes.type.nfs }}

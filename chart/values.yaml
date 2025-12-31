@@ -28,7 +28,7 @@ volumes:
   enabled: false
   secret:
     secretName: ""
-    items: {}
+    mountPath: ""
   mountPath: []
   ownership: ""
   type:
