@@ -29,6 +29,7 @@ volumes:
   secret:
     secretName: ""
     mountPath: ""
+    subPath: ""
   mountPath: []
   ownership: ""
 deployNotifications:

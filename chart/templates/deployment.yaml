@@ -45,6 +45,9 @@ spec:
             {{- if .Values.volumes.secret }}
             - name: {{ .Release.Name }}-secret-volume
               mountPath: {{ .Values.volumes.secret.mountPath }}
+              {{- if .Values.volumes.secret.subPath }}
+              subPath: {{ .Values.volumes.secret.subPath }}
+              {{- end}}
             {{- end }}
             {{- range .Values.volumes.mountPath }}
             {{- $dirmap := regexSplit ":" . -1 }}
