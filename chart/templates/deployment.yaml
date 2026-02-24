@@ -39,7 +39,7 @@ spec:
           {{- if .Values.volumes.enabled }}
           volumeMounts:
             {{- if .Values.configMap }}
-            - name: {{ .Values.configMap.name }}
+            - name: {{ .Values.configMap.name }}-config-volume
               mountPath: {{ .Values.configMap.mountPath }}
             {{- end }}
             {{- if .Values.volumes.secret }}
@@ -118,7 +118,7 @@ spec:
       {{- end}}
       volumes:
         {{- if .Values.configMap }}
-        - name: {{ .Values.configMap.name }}
+        - name: {{ .Values.configMap.name }}-config-volume
           configMap:
             name: {{ .Values.configMap.name }}
         {{- end }}
