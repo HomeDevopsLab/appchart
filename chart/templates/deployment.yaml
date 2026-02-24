@@ -38,12 +38,12 @@ spec:
           {{- end }}
           {{- if .Values.volumes.enabled }}
           volumeMounts:
-            {{- if .Values.configMap }}
-            - name: {{ .Values.configMap.name }}-config-volume
-              mountPath: {{ .Values.configMap.mountPath }}
+            {{- if .Values.volumes.configMap }}
+            - name: {{ .Values.volumes.configMap.name }}
+              mountPath: {{ .Values.volumes.configMap.mountPath }}
             {{- end }}
             {{- if .Values.volumes.secret }}
-            - name: {{ .Release.Name }}-secret-volume
+            - name: {{ .Values.volumes.secret.secretName }}
               mountPath: {{ .Values.volumes.secret.mountPath }}
               {{- if .Values.volumes.secret.subPath }}
               subPath: {{ .Values.volumes.secret.subPath }}
@@ -117,13 +117,12 @@ spec:
         fsGroup: {{ $gid | default 0 }}
       {{- end}}
       volumes:
-        {{- if .Values.configMap }}
-        - name: {{ .Values.configMap.name }}-config-volume
+        {{- if .Values.volumes.configMap }}
+        - name: {{ .Values.volumes.configMap.name }}
           configMap:
-            name: {{ .Values.configMap.name }}
+            name: {{ .Values.volumes.configMap.name }}
         {{- end }}
         {{- if .Values.volumes.secret }}
-        - name: {{ .Release.Name }}-secret-volume
           secret:
             secretName: {{ .Values.volumes.secret.secretName }}
         {{- end }}

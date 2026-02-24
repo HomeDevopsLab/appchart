@@ -26,10 +26,8 @@ ingress:
   tls: {}
 volumes:
   enabled: false
-  secret:
-    secretName: ""
-    mountPath: ""
-    subPath: ""
+  secret: {}
+  configMap: {}
   mountPath: []
   ownership: ""
 deployNotifications:
