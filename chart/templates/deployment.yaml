@@ -49,6 +49,7 @@ spec:
               subPath: {{ .Values.volumes.secret.subPath }}
               {{- end}}
             {{- end }}
+            {{- if .Values.volumes.type.nfs }}
             {{- range .Values.volumes.mountPath }}
             {{- $dirmap := regexSplit ":" . -1 }}
             {{- $sub_path := slice $dirmap 0 1 | first }}
@@ -61,6 +62,7 @@ spec:
             - mountPath: {{ $mount | default "/var/www" }}
               name: {{ $.Release.Name }}-volume
               subPath: {{ $sub_path }}
+            {{- end }}
             {{- end }}
             {{- end }}
           {{- end}}
@@ -126,8 +128,8 @@ spec:
           secret:
             secretName: {{ .Values.volumes.secret.secretName }}
         {{- end }}
+        {{- if .Values.volumes.type.nfs }}
         - name: {{ .Release.Name }}-volume
-          {{- if .Values.volumes.type.nfs }}
           nfs:
             server: {{ .Values.volumes.type.nfs.server }}
             {{- if .Values.volumes.rootDir }}
@@ -136,8 +138,5 @@ spec:
             path: {{ .Values.volumes.type.nfs.path }}/{{ .Release.Name }}
             {{- end }}
             readOnly: false
-          {{- else }}
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-pvc
           {{- end }} 
     {{- end }}
