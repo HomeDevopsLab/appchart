@@ -15,9 +15,7 @@ spec:
       labels:
         {{- include "basic.selectorLabels" . | nindent 8 }}
     spec:
-      {{- if .Values.enableServiceLinks }}
-      enableServiceLinks: {{ .Values.enableServiceLinks }}
-      {{- end }}
+      enableServiceLinks: false
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
