@@ -22,10 +22,6 @@ ingress:
   enabled: false
   hosts: []
   tls: {}
-volumes:
-  enabled: false
-deployNotifications:
-  enabled: false
-  image: ""
+volumes: {}
 nodeSelector: {}
 configMap: {}
