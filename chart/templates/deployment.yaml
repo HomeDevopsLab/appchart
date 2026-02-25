@@ -131,5 +131,5 @@ spec:
       {{- if .Values.volumes.configmap }}
         - name: {{ .Values.volumes.configmap.configMap }}
           configMap:
-            name: {{ .Values.volumes.ssecret.configMap }}
+            name: {{ .Values.volumes.configmap.configMap }}
       {{- end }}
