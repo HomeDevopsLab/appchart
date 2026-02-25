@@ -1,8 +1,6 @@
 replicaCount: 1
 autoscaling:
   enabled: false
-database:
-  enabled: false
 image:
   imagePolicy: false
   repository: ""
