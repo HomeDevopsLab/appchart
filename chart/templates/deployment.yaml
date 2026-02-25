@@ -38,9 +38,15 @@ spec:
           {{- end }}
           {{- if .Values.volumes.enabled }}
           volumeMounts:
-            {{- if .Values.volumes.configMap }}
-            - name: {{ .Values.volumes.configMap.name }}
-              mountPath: {{ .Values.volumes.configMap.mountPath }}
+            {{- if .Values.volumes.nfs }}
+              {{- range .Values.volumes.nfs.mountPath }}
+                {{- $dirmap := regexSplit ":" . -1 }}
+                {{- $sub_path := slice $dirmap 0 1 | first }}
+                {{- $mount := slice $dirmap  1 | last }}
+            - mountPath: {{ $mount | default "/var/www" }}
+              name: {{ $.Release.Name }}-volume
+              subPath: {{ $sub_path }}
+              {{- end }}
             {{- end }}
             {{- if .Values.volumes.secret }}
             - name: {{ .Values.volumes.secret.secretName }}
@@ -49,21 +55,12 @@ spec:
               subPath: {{ .Values.volumes.secret.subPath }}
               {{- end}}
             {{- end }}
-            {{- if .Values.volumes.type.nfs }}
-            {{- range .Values.volumes.mountPath }}
-            {{- $dirmap := regexSplit ":" . -1 }}
-            {{- $sub_path := slice $dirmap 0 1 | first }}
-            {{- $mount := slice $dirmap  1 | last }}
-            {{- if $.Values.volumes.type.pvc }}
-            {{- $path := $mount }}
-            - mountPath: {{ $mount | default "/var/www" }}
-              name: {{ $.Release.Name }}-volume
-            {{- else }}
-            - mountPath: {{ $mount | default "/var/www" }}
-              name: {{ $.Release.Name }}-volume
-              subPath: {{ $sub_path }}
-            {{- end }}
-            {{- end }}
+            {{- if .Values.volumes.configmap }}
+            - name: {{ .Values.volumes.configmap.configMap }}
+              mountPath: {{ .Values.volumes.configmap.mountPath }}
+              {{- if .Values.volumes.configmap.subPath }}
+              subPath: {{ .Values.volumes.configmap.subPath }}
+              {{- end}}
             {{- end }}
           {{- end}}
           env:
@@ -119,24 +116,30 @@ spec:
         fsGroup: {{ $gid | default 0 }}
       {{- end}}
       volumes:
-        {{- if .Values.volumes.configMap }}
+      {{- if .Values.volumes.configMap }}
         - name: {{ .Values.volumes.configMap.name }}
           configMap:
             name: {{ .Values.volumes.configMap.name }}
-        {{- end }}
-        {{- if .Values.volumes.secret }}
-          secret:
-            secretName: {{ .Values.volumes.secret.secretName }}
-        {{- end }}
-        {{- if .Values.volumes.type.nfs }}
+      {{- end }}
+      {{- if .Values.volumes.nfs }}
         - name: {{ .Release.Name }}-volume
           nfs:
-            server: {{ .Values.volumes.type.nfs.server }}
-            {{- if .Values.volumes.rootDir }}
-            path: {{ .Values.volumes.type.nfs.path }}/{{ .Values.volumes.rootDir }}
-            {{- else }}
-            path: {{ .Values.volumes.type.nfs.path }}/{{ .Release.Name }}
-            {{- end }}
+            server: {{ .Values.volumes.nfs.server }}
+        {{- if .Values.volumes.rootDir }}
+            path: {{ .Values.volumes.nfs.path }}/{{ .Values.volumes.rootDir }}
+        {{- else }}
+            path: {{ .Values.volumes.nfs.path }}/{{ .Release.Name }}
+        {{- end }}
             readOnly: false
-          {{- end }} 
+      {{- end }}
+      {{- if .Values.volumes.secret }}
+        - name: {{ .Values.volumes.secret.secretName }}
+          secret:
+            secretName: {{ .Values.volumes.secret.secretName }}
+      {{- end }}
+      {{- if .Values.volumes.configmap }}
+        - name: {{ .Values.volumes.configmap.configMap }}
+          configMap:
+            name: {{ .Values.volumes.ssecret.configMap }}
+      {{- end }}
     {{- end }}
