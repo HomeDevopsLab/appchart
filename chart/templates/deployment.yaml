@@ -36,7 +36,6 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- end }}
-          {{- if .Values.volumes.enabled }}
           volumeMounts:
             {{- if .Values.volumes.nfs }}
               {{- range .Values.volumes.nfs.mountPath }}
@@ -62,7 +61,6 @@ spec:
               subPath: {{ .Values.volumes.configmap.subPath }}
               {{- end}}
             {{- end }}
-          {{- end}}
           env:
           {{- with .Values.env }}
             {{- toYaml . | nindent 12 }}
