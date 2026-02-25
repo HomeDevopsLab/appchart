@@ -108,13 +108,6 @@ spec:
       {{- with .Values.nodeSelector }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.volumes.enabled }}
-      {{- if .Values.volumes.type.pvc }}
-      {{- $ownership := regexSplit ":" .Values.volumes.ownership -1 }}
-      {{- $gid := slice $ownership 0 1 | first }}
-      securityContext:
-        fsGroup: {{ $gid | default 0 }}
-      {{- end}}
       volumes:
       {{- if .Values.volumes.configMap }}
         - name: {{ .Values.volumes.configMap.name }}
@@ -142,4 +135,3 @@ spec:
           configMap:
             name: {{ .Values.volumes.ssecret.configMap }}
       {{- end }}
-    {{- end }}
