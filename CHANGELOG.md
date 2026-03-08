@@ -18,7 +18,7 @@
 ### Removed
 
 - [BREAKING] database.enabled flag
-- Obsolete before hook which was designed to generate databae credentials for application
+- Obsolete dbsecrets pre-install hook which was designed to generate databae credentials for application
 - Faulty initwebsitedir pre-install hook, which was designed to create application directory on persistent storage
 - Obsolete mattermos-notify post-hook. This hook was designed to send chat notification after application deployment
 - Obsolete MySQLDBHelper pre-install hook which was designed to create mysql database for an application
