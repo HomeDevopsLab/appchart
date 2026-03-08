@@ -1,8 +1,6 @@
 replicaCount: 1
 autoscaling:
   enabled: false
-database:
-  enabled: false
 image:
   imagePolicy: false
   repository: ""
@@ -24,16 +22,6 @@ ingress:
   enabled: false
   hosts: []
   tls: {}
-volumes:
-  enabled: false
-  mountPath: []
-  ownership: ""
-  type:
-    nfs:
-      server: lab-storage.lan
-      path: /volume1/storagelab
-deployNotifications:
-  enabled: false
-  image: ""
+volumes: {}
 nodeSelector: {}
 configMap: {}

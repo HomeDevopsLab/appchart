@@ -1,12 +1,10 @@
 {{- if .Values.ingress.enabled -}}
 {{- range .Values.ingress.hosts }}
-{{- $subdomain := .name | splitList "." | first -}}
-{{- $ReleaseName := printf "%s-%s" $.Release.Name $subdomain -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $ReleaseName }}
+  name: {{ $.Release.Name}}
   namespace: {{ $.Release.Namespace }}
   {{- if $.Values.ingress.ssl }}
   annotations:
@@ -23,12 +21,12 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ $ReleaseName }}
+                name: {{ $.Release.Name }}
                 port:
                   number: {{ .servicePort }}
   {{- if $.Values.ingress.ssl }}
   tls:
-    - secretName: {{ $ReleaseName }}-tls
+    - secretName: {{ $.Release.Name }}-tls
       hosts:
         - {{ .name }}
   {{- end }}
