@@ -5,6 +5,23 @@
 ### Added
 
 - Ability to mount secrets as volumes. I'ts handy when you need to mount encrypted config file
+- Ability to mount configmap as volume just as the other type of volume.
+
+
+### Changed
+
+- [BREAKING] volumes structure. Flag `enabled` was removed, along with `type` structure. Now volumes structure is flattened.
+- [BREAKING] kubernetes service name is no longer combined with application name (.Release.Name). HelmRelese configuration will be more straightforward.
+- [BREAKING] mountPath and subPath options are now child-nodes for volumes.nfs, volumes.configmap and volumes.secret
+- Ingress name is now the same as application name.
+
+### Removed
+
+- [BREAKING] database.enabled flag
+- Obsolete before hook which was designed to generate databae credentials for application
+- Faulty initwebsitedir pre-install hook, which was designed to create application directory on persistent storage
+- Obsolete mattermos-notify post-hook. This hook was designed to send chat notification after application deployment
+- Obsolete MySQLDBHelper pre-install hook which was designed to create mysql database for an application
 
 ## [2.7.0] - 2025-12-14
 
