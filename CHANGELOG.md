@@ -1,12 +1,17 @@
 # Changelog
 
+## [3.1.0] - 2026-04-05
+
+### Added
+
+- Adding ServiceAccountName option, to give certain application special permissions.
+
 ## [3.0.0] - 2025-12-30
 
 ### Added
 
 - Ability to mount secrets as volumes. I'ts handy when you need to mount encrypted config file
 - Ability to mount configmap as volume just as the other type of volume.
-
 
 ### Changed
 
