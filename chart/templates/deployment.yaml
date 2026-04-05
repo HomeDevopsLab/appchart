@@ -4,9 +4,6 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
-  {{- if .Values.serviceAccountName }}
-  serviceAccountName: {{ .Values.serviceAccountName }}
-  {{- end}}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
@@ -19,6 +16,9 @@ spec:
         {{- include "basic.selectorLabels" . | nindent 8 }}
     spec:
       enableServiceLinks: false
+      {{- if .Values.serviceAccountName }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      {{- end}}
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
