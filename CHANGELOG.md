@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.2.0] - 2026-05-21
+
+### Added
+
+- readinessProbes block
+
+### Removed
+
+- tolerations block (obsolete)
+
 ## [3.1.0] - 2026-04-05
 
 ### Added
