@@ -4,6 +4,9 @@ A reusable Helm chart for deploying containerised applications on a homelab Kube
 
 Current chart version: **3.2.0**
 
+> [!NOTE]
+> This code was entirely crafted by me. Claude was used only to help with the documentation.
+
 ---
 
 ## Prerequisites
