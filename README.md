@@ -1,5 +1,3 @@
-# AppChart — Generic Application Helm Chart for Homelab Kubernetes
-
 ![Appchart image](/assets/appchart.jpg)
 
 A reusable Helm chart for deploying containerised applications on a homelab Kubernetes cluster. Designed to be consumed by [Flux CD](https://fluxcd.io/) `HelmRelease` resources, it covers the most common deployment patterns — services, ingress with TLS, NFS/secret/configmap volume mounts, health probes, and optional Flux image automation — without needing a separate chart per application.
