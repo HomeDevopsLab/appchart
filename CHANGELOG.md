@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.2.1] - 2026-07-09
+
+### Changed
+
+- Bumped Flux `ImagePolicy`/`ImageRepository` apiVersion from `image.toolkit.fluxcd.io/v1beta2` to `image.toolkit.fluxcd.io/v1`
+
 ## [3.2.0] - 2026-05-21
 
 ### Added
