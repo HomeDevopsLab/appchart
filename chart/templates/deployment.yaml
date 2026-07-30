@@ -16,6 +16,7 @@ spec:
         {{- include "basic.selectorLabels" . | nindent 8 }}
       {{- if .Values.volumes.configmap.autoapply }}
       annotations:
+        reloader.stakater.com/auto: "true"
         checksum/config: {{ $.Files.Get .Values.volumes.configmap.subPath | sha256sum }}
       {{- end }}
     spec:
