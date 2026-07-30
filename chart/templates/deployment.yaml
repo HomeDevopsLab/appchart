@@ -16,7 +16,7 @@ spec:
         {{- include "basic.selectorLabels" . | nindent 8 }}
       {{- if .Values.volumes.configmap.autoapply }}
       annotations:
-        checksum/config: {{ include (print .Values.volumes.configmap.mountPath "/" .Values.volumes.configmap.subPath) . | sha256sum }}
+        checksum/config: {{ include (print .Values.volumes.configmap.mountPath) . | sha256sum }}
       {{- end }}
     spec:
       enableServiceLinks: false
