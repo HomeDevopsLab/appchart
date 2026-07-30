@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.3.0] - 2026-07-30
+
+### Added
+
+- autoapply option to configmap, that triggers pod restart after configuration change
+
 ## [3.2.1] - 2026-07-09
 
 ### Changed
