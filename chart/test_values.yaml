@@ -58,6 +58,7 @@ ingress:
       servicePort: 80
     - name: registry.lab.angrybits.pl
       servicePort: 5050
+      serviceName: registry
 startupProbe:
   httpGet:
     path: /

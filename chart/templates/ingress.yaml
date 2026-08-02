@@ -1,10 +1,14 @@
 {{- if .Values.ingress.enabled -}}
 {{- range .Values.ingress.hosts }}
+{{- $ingressName := $.Release.Name }}
+{{- if .serviceName }}
+{{- $ingressName = printf "%s-%s" $.Release.Name .serviceName }}
+{{- end }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $.Release.Name}}
+  name: {{ $ingressName }}
   namespace: {{ $.Release.Namespace }}
   {{- if $.Values.ingress.ssl }}
   annotations:
@@ -21,12 +25,12 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ $.Release.Name }}
+                name: {{ .serviceName | default $.Release.Name }}
                 port:
                   number: {{ .servicePort }}
   {{- if $.Values.ingress.ssl }}
   tls:
-    - secretName: {{ $.Release.Name }}-tls
+    - secretName: {{ $ingressName }}-tls
       hosts:
         - {{ .name }}
   {{- end }}

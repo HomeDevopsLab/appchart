@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.2.2] - 2026-08-02
+
+### Fixed
+
+- Ingress entries with a `serviceName` now get a unique Ingress (and TLS secret) name and route to that service instead of all colliding on `.Release.Name`.
+
 ## [3.2.1] - 2026-07-09
 
 ### Changed

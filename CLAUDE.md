@@ -45,7 +45,7 @@ All chart content is under `chart/`:
 - `secret` — mounts a Kubernetes Secret as a volume
 - `configmap` — mounts a ConfigMap as a volume
 
-**Ingress**: Uses Traefik. When `ingress.ssl: true`, annotations for `cert-manager.io/cluster-issuer: letsencrypt` and the HTTPS redirect middleware are added automatically.
+**Ingress**: Uses Traefik. One Ingress per `ingress.hosts[]` entry, named `.Release.Name` or `<release>-<serviceName>` when the entry sets `serviceName`; the backend service defaults to `.Release.Name`. When `ingress.ssl: true`, annotations for `cert-manager.io/cluster-issuer: letsencrypt` and the HTTPS redirect middleware are added automatically.
 
 **Probes**: `startupProbe`, `livenessProbe`, and `readinessProbe` are passed through verbatim from values — no defaults are set in the chart.
 
