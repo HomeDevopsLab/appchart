@@ -129,7 +129,7 @@ services:
     loadBalancerIP: 192.168.1.100   # Optional: pin a static IP
 ```
 
-> **Note:** The `Ingress` backend always uses `.Release.Name` as the service name. To route ingress traffic correctly, one of your services must be named the same as the Helm release.
+> **Note:** The `Ingress` backend defaults to `.Release.Name` as the service name. Either name one of your services the same as the Helm release, or point each ingress host at a specific service with `serviceName` (see [Ingress](#ingress)).
 
 ### Ingress
 
@@ -138,19 +138,22 @@ Ingress is disabled by default. Enable it to expose services via Traefik.
 ```yaml
 ingress:
   enabled: true
-  ssl: true              # Adds cert-manager and HTTPS-redirect annotations
+  ssl: true                  # Adds cert-manager and HTTPS-redirect annotations
   hosts:
     - name: app.example.com
-      servicePort: 80    # Port number on the target Service
+      servicePort: 80        # Port number on the target Service
     - name: api.example.com
       servicePort: 8080
+      serviceName: api       # Optional: target Service (defaults to release name)
 ```
+
+One `Ingress` resource is created per host entry. Its name is `<release-name>`, or `<release-name>-<serviceName>` when `serviceName` is set — so several hosts can point at different services without overwriting each other.
 
 When `ssl: true`, the following are applied automatically:
 - `kubernetes.io/ingress.class: traefik`
 - `cert-manager.io/cluster-issuer: letsencrypt`
 - `traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd`
-- TLS secret named `<release-name>-tls`
+- TLS secret named `<ingress-name>-tls`
 
 ### Volumes
 

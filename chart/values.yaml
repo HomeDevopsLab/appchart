@@ -20,6 +20,8 @@ resources:
 services: {}
 ingress:
   enabled: false
+  # hosts entries: name (hostname), servicePort, and optional serviceName
+  # (target Service; defaults to .Release.Name)
   hosts: []
   tls: {}
 volumes: {}
